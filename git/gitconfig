@@ -1,15 +1,12 @@
-[user]
-  name    = Marc Anguera Insa
-  email   = srmarc.ai@gmail.com
-[github]
-  user    = markets
 [color]
   diff    = auto
   status  = auto
   branch  = auto
   ui      = true
+
 [core]
   excludesfile = ~/.gitignore
+
 [alias]
   st      = status
   ci      = commit
@@ -21,7 +18,9 @@
   last    = log -1 HEAD
   tags    = tag -l
   remotes = remote -v
+
 [push]
   default = simple
+
 [pull]
   default = simple

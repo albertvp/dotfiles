@@ -12,6 +12,10 @@ function install {
   ln -sf "$dotfiles_dir/bash/bash_aliases" ~/.bash_aliases
   ln -sf "$dotfiles_dir/bash/bash_functions" ~/.bash_functions
   ln -sf "$dotfiles_dir/bash/bash_profile" ~/.bash_profile
+  if [ ! -f ~/.secrets ]; then
+    cp "$dotfiles_dir/bash/secrets.example" ~/.secrets
+    interactive_git_credentials
+  fi
 
   # Git stuff
   ln -sf "$dotfiles_dir/git/gitconfig" ~/.gitconfig
@@ -28,9 +32,23 @@ function install {
     ln -sf "$dotfiles_dir/bin" ~/.bin
   fi
 
+  # Sublime Text
+  sublime_dir=~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/
+  if [ ! -d "$sublime_dir" ]; then
+    cp -r "$dotfiles_dir/sublime-text/" "$sublime_dir"
+  fi
+
   source ~/.bash_profile
 
   echo "Installation completed. Enjoy!"
+}
+
+function interactive_git_credentials {
+  read -e -p "What is your Git author name?" git_author_name
+  sed -i -e "s/YOUR_GIT_AUTHOR_NAME/$git_author_name/g" ~/.secrets
+
+  read -e -p "What is your Git author email?" git_author_email
+  sed -i -e "s/YOUR_GIT_AUTHOR_EMAIL/$git_author_email/g" ~/.secrets
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
@@ -42,4 +60,3 @@ else
     install
   fi
 fi
-
